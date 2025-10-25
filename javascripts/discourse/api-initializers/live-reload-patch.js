@@ -48,24 +48,7 @@ class LiveReloadPatch {
   @bind
   onFileChange(data) {
     data.forEach((me) => {
-      if (me === "refresh") {
-        // Refresh if necessary
-        document.location.reload(true);
-      } else if (me === "development-mode-theme-changed") {
-        if (
-          window.location.pathname.startsWith("/admin/customize/themes") ||
-          window.location.pathname.startsWith(
-            "/admin/config/customize/themes"
-          ) ||
-          window.location.pathname.startsWith("/admin/config/look-and-feel")
-        ) {
-          // Don't refresh users on routes which make theme changes - would be very inconvenient.
-          // Instead, refresh on their next route navigation.
-          this.session.requiresRefresh = true;
-        } else {
-          document.location.reload(true);
-        }
-      } else if (me.new_href && me.target) {
+      if (me.new_href && me.target) {
         let query = `link[data-target='${me.target}']`;
 
         if (me.theme_id) {
@@ -89,11 +72,10 @@ class LiveReloadPatch {
   }
 
   refreshCSS(node, newHref) {
-      console.log("Refreshing CSS");
-      const reloaded = node.cloneNode(true);
-      reloaded.href = newHref;
-      node.insertAdjacentElement("afterend", reloaded);
-      discourseLater(() => node?.parentNode?.removeChild(node), 500);
+    const reloaded = node.cloneNode(true);
+    reloaded.href = newHref;
+    node.insertAdjacentElement("afterend", reloaded);
+    discourseLater(() => node?.parentNode?.removeChild(node), 500);
   }
 }
 
