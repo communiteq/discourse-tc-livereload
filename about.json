@@ -1,0 +1,12 @@
+{
+  "name": "LiveReload",
+  "about_url": "https://github.com/communiteq/discourse-tc-livereload",
+  "authors": "Communiteq",
+  "license_url": null,
+  "component": true,
+  "theme_version": "2025.10.24",
+  "assets": {
+  },
+  "color_schemes": {
+  }
+}
