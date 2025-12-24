@@ -1,0 +1,5 @@
+livereload_groups:
+  type: list
+  list_type: group
+  default: "3"
+  description: Only apply live reload to users in these groups. Leave empty to allow all users.

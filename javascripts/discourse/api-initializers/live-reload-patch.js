@@ -8,6 +8,7 @@ import discourseLater from "discourse/lib/later";
 class LiveReloadPatch {
   @service messageBus;
   @service session;
+  @service currentUser;
 
   constructor(owner) {
     setOwner(this, owner);
@@ -47,6 +48,15 @@ class LiveReloadPatch {
 
   @bind
   onFileChange(data) {
+    if (settings.livereload_groups && this.currentUser) {
+      const allowedGroupIds = settings.livereload_groups.split("|").map((id) => parseInt(id, 10));
+      const userGroupIds = (this.currentUser?.groups || []).map((g) => g.id);
+      const hasAccess = allowedGroupIds.some((id) => userGroupIds.includes(id));
+      if (!hasAccess) {
+        return;
+      }
+    }
+
     data.forEach((me) => {
       if (me.new_href && me.target) {
         let query = `link[data-target='${me.target}']`;
